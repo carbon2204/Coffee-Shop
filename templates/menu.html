@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Меню - Магазин Кофе{% endblock %}
+{% block content %}
+  <h2>Меню кофе</h2>
+  <div class="products">
+    {% for product in products %}
+    <div class="product">
+      {% if product.image_filename %}
+      <img src="{{ url_for('static', filename='images/' ~ product.image_filename) }}" alt="{{ product.name }}">
+      {% endif %}
+      <div class="product-content">
+        <h3>{{ product.name }} — {{ product.price }} руб.</h3>
+        <p>{{ product.description }}</p>
+        <a href="{{ url_for('add_to_cart', product_id=product.id) }}" class="btn-cart">Добавить в корзину</a>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+{% endblock %}

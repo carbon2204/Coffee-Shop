@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Чат поддержки{% endblock %}
+{% block content %}
+  <h2>Чат поддержки</h2>
+  <div id="chat-window" style="border:1px solid #ccc; height:300px; overflow-y:scroll; padding:10px; margin-bottom:10px;"></div>
+  <input type="text" id="chat-input" placeholder="Введите сообщение..." style="width:80%;">
+  <button id="send-btn">Отправить</button>
+
+  <script>
+    var socket = io();
+    var room = 'support'; // Общая комната для поддержки
+    socket.emit('join', {username: "{{ current_user.username }}", room: room});
+
+    socket.on('message', function(data) {
+      var chatWindow = document.getElementById("chat-window");
+      var msgDiv = document.createElement("div");
+      msgDiv.innerText = data.msg || (data.username + ': ' + data.message);
+      chatWindow.appendChild(msgDiv);
+      chatWindow.scrollTop = chatWindow.scrollHeight;
+    });
+
+    document.getElementById("send-btn").addEventListener("click", function() {
+      var input = document.getElementById("chat-input");
+      var message = input.value;
+      if(message.trim() !== ''){
+        socket.emit('send_message', {username: "{{ current_user.username }}", room: room, message: message});
+        input.value = '';
+      }
+    });
+  </script>
+{% endblock %}

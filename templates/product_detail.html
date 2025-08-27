@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}{{ product.name }}{% endblock %}
+{% block content %}
+  <h2>{{ product.name }}</h2>
+  {% if product.image_filename %}
+    <img src="{{ url_for('static', filename='images/' ~ product.image_filename) }}" alt="{{ product.name }}" style="width:300px;">
+  {% endif %}
+  <p>{{ product.description }}</p>
+  <p>Цена: {{ product.price }} руб.</p>
+  
+  <hr>
+  <h3>Отзывы</h3>
+  {% if reviews %}
+    <ul>
+      {% for review in reviews %}
+        <li>
+          <strong>{{ review.user.username }}</strong> оценил(а) товар {{ review.rating }}/5<br>
+          {{ review.comment }}<br>
+          <small>{{ review.timestamp.strftime('%Y-%m-%d %H:%M') }}</small>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>Отзывов пока нет. Будьте первым!</p>
+  {% endif %}
+  
+  {% if current_user.is_authenticated %}
+    <hr>
+    <h4>Оставить отзыв</h4>
+    <form method="post" action="{{ url_for('add_review', product_id=product.id) }}">
+      <label for="rating">Оценка (1-5):</label>
+      <input type="number" name="rating" id="rating" min="1" max="5" required>
+      <br>
+      <label for="comment">Комментарий:</label>
+      <textarea name="comment" id="comment"></textarea>
+      <br>
+      <button type="submit">Отправить отзыв</button>
+    </form>
+  {% else %}
+    <p><a href="{{ url_for('login') }}">Войдите</a>, чтобы оставить отзыв.</p>
+  {% endif %}
+{% endblock %}

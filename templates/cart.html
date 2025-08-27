@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}Корзина{% endblock %}
+{% block content %}
+  <h2>Ваша корзина</h2>
+  {% if products %}
+  <table class="cart-table">
+    <thead>
+      <tr>
+        <th>Изображение</th>
+        <th>Название</th>
+        <th>Цена</th>
+        <th>Количество</th>
+        <th>Подытог</th>
+        <th>Действия</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in products %}
+      <tr>
+        <td>
+          {% if item.image_filename %}
+          <img src="{{ url_for('static', filename='images/' ~ item.image_filename) }}" alt="{{ item.name }}" style="width:80px;">
+          {% endif %}
+        </td>
+        <td>{{ item.name }}</td>
+        <td>{{ item.price }} руб.</td>
+        <td>{{ item.quantity }}</td>
+        <td>{{ item.subtotal }} руб.</td>
+        <td>
+          <a href="{{ url_for('remove_from_cart', product_id=item.id) }}" class="btn-delete" onclick="return confirm('Удалить товар из корзины?');">Удалить</a>
+        </td>
+      </tr>
+      {% endfor %}
+      <tr>
+        <td colspan="4" style="text-align: right;"><strong>Итого:</strong></td>
+        <td colspan="2"><strong>{{ total }} руб.</strong></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <form action="{{ url_for('checkout') }}" method="POST">
+    <button type="submit">Оформить заказ</button>
+  </form>
+
+  {% else %}
+    <p>Ваша корзина пуста.</p>
+  {% endif %}
+{% endblock %}

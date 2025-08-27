@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}{{ post.title }}{% endblock %}
+{% block content %}
+<h2>{{ post.title }}</h2>
+<p><em>{{ post.timestamp.strftime('%Y-%m-%d') }}</em></p>
+
+{% if post.image_filename %}
+  <p><img src="{{ url_for('static', filename='images/' ~ post.image_filename) }}" width="300"></p>
+{% endif %}
+
+<div>{{ post.content|safe }}</div>
+
+<hr>
+<!-- Лайки -->
+{% set like_count = like_count|default(0) %}
+<p>Лайков: {{ like_count }}</p>
+{% if current_user.is_authenticated %}
+  <form method="POST" action="{{ url_for('like_post', post_id=post.id) }}">
+    <button type="submit">
+      {% if user_liked %}
+        Убрать лайк
+      {% else %}
+        Мне нравится
+      {% endif %}
+    </button>
+  </form>
+{% else %}
+  <p><a href="{{ url_for('login') }}">Войдите</a>, чтобы поставить лайк.</p>
+{% endif %}
+
+<!-- Комментарии -->
+<hr>
+<h3>Комментарии</h3>
+{% if post.comments %}
+  {% for comment in post.comments %}
+  <div style="margin-bottom:1em;">
+    <strong>{{ comment.user.username }}</strong>
+    <em>{{ comment.timestamp.strftime('%Y-%m-%d %H:%M') }}</em><br>
+    {{ comment.content }}
+  </div>
+  {% endfor %}
+{% else %}
+  <p>Комментариев пока нет. Будьте первым!</p>
+{% endif %}
+
+{% if current_user.is_authenticated %}
+<form method="POST" action="{{ url_for('add_blog_comment', post_id=post.id) }}">
+  <textarea name="content" rows="3" cols="60" required></textarea><br>
+  <button type="submit">Оставить комментарий</button>
+</form>
+{% else %}
+<p><a href="{{ url_for('login') }}">Войдите</a>, чтобы оставить комментарий.</p>
+{% endif %}
+
+<p style="margin-top:1em;"><a href="{{ url_for('blog') }}">← Вернуться в блог</a></p>
+{% endblock %}

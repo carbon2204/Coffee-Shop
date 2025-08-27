@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Выдать сертификат</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <header>
+        <h1>Магазин Кофе – Админка</h1>
+        <nav>
+            <a href="/">Главная</a> | 
+            <a href="/menu">Меню</a> | 
+            <a href="/cart">Корзина</a> |
+            <a href="/admin">Админпанель</a>
+        </nav>
+    </header>
+    <main>
+        <h2>Выдать сертификат пользователю</h2>
+        
+        <!-- Поле для указания Common Name -->
+        <label for="commonName">Common Name:</label>
+        <input type="text" id="commonName" value="admin.example.com">
+
+        <!-- Кнопка, которая вызывает JS для отправки JSON-запроса -->
+        <button onclick="issueCertificate()">Выдать сертификат</button>
+
+        <!-- Блок для вывода результатов запроса -->
+        <div id="resultBlock" style="margin-top:1em; white-space:pre; border:1px solid #ccc; padding:0.5em;"></div>
+    </main>
+
+    <script>
+    async function issueCertificate() {
+        // Получаем значение из поля
+        const cn = document.getElementById('commonName').value.trim();
+        if (!cn) {
+            alert("Заполните Common Name!");
+            return;
+        }
+        try {
+            const response = await fetch('/issue_certificate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ common_name: cn })
+            });
+            if (!response.ok) {
+                const err = await response.json();
+                document.getElementById('resultBlock').innerText = 
+                    `Ошибка ${response.status}: ${JSON.stringify(err, null, 2)}`;
+                return;
+            }
+            const data = await response.json();
+            // В data.certificate и data.private_key придут строки PEM
+            document.getElementById('resultBlock').innerText = 
+                `Сертификат:\n${data.certificate}\n\n` +
+                `Закрытый ключ:\n${data.private_key}`;
+        } catch (e) {
+            document.getElementById('resultBlock').innerText = "Произошла ошибка: " + e;
+        }
+    }
+    </script>
+
+    <footer>
+        <p>&copy; 2025 Магазин Кофе</p>
+    </footer>
+</body>
+</html>

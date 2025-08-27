@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Редактировать продукт{% endblock %}
+{% block content %}
+    <h2>Редактировать продукт</h2>
+    <form method="post" enctype="multipart/form-data">
+        <label for="name">Название:</label>
+        <input type="text" name="name" id="name" value="{{ product.name }}" required>
+        <br>
+        <label for="price">Цена (руб):</label>
+        <input type="number" step="0.01" name="price" id="price" value="{{ product.price }}" required>
+        <br>
+        <label for="description">Описание:</label>
+        <textarea name="description" id="description">{{ product.description }}</textarea>
+        <br>
+        <label for="image">Изображение:</label>
+        <input type="file" name="image" id="image" accept="image/*">
+        <br>
+        {% if product.image_filename %}
+            <p>Текущее изображение:</p>
+            <img src="{{ url_for('static', filename='images/' ~ product.image_filename) }}" alt="{{ product.name }}" style="width:200px;">
+        {% endif %}
+        <br>
+        <button type="submit">Сохранить изменения</button>
+    </form>
+{% endblock %}

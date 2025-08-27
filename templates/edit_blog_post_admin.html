@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Редактировать статью{% endblock %}
+{% block content %}
+<h2>Редактировать статью</h2>
+<form method="POST" enctype="multipart/form-data">
+  <label for="title">Заголовок:</label><br>
+  <input type="text" name="title" id="title" value="{{ post.title }}" required><br><br>
+
+  <label for="content">Содержимое:</label><br>
+  <textarea name="content" id="content" rows="6" cols="60" required>{{ post.content }}</textarea><br><br>
+
+  {% if post.image_filename %}
+    <p>Текущая картинка:<br>
+       <img src="{{ url_for('static', filename='images/' ~ post.image_filename) }}" width="200">
+    </p>
+  {% endif %}
+  <label for="image">Новая картинка (необязательно):</label><br>
+  <input type="file" name="image" id="image"><br><br>
+
+  <button type="submit">Сохранить</button>
+</form>
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Личный кабинет{% endblock %}
+{% block content %}
+  <h2>Добро пожаловать, {{ current_user.username }}!</h2>
+  <h3>История заказов</h3>
+  {% if orders %}
+    <ul>
+      {% for order in orders %}
+        <li>
+          Заказ №{{ order.id }} от {{ order.timestamp.strftime('%Y-%m-%d %H:%M') }} – Общая сумма: {{ order.total }} руб.
+          <ul>
+            {% for item in order.items %}
+              <li>{{ item.product.name }} – {{ item.quantity }} шт. по {{ item.price }} руб.</li>
+            {% endfor %}
+          </ul>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>Заказов пока нет.</p>
+  {% endif %}
+{% endblock %}

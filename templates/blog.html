@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Блог{% endblock %}
+{% block content %}
+<h2>Новости и статьи</h2>
+
+<!-- Если админ, можно добавить новую -->
+{% if current_user.is_authenticated and current_user.is_admin %}
+  <p><a href="{{ url_for('add_blog_post_admin') }}">Добавить статью</a></p>
+{% endif %}
+
+{% for post in posts %}
+  <div style="border:1px solid #ccc; margin:1em 0; padding:1em;">
+    <h3><a href="{{ url_for('blog_post', post_id=post.id) }}">{{ post.title }}</a></h3>
+    <p><em>{{ post.timestamp.strftime('%Y-%m-%d') }}</em></p>
+    {% if post.image_filename %}
+      <img src="{{ url_for('static', filename='images/' ~ post.image_filename) }}" width="200" alt="Картинка">
+    {% endif %}
+    <p>{{ post.content|truncate(200, True, '...') }}
+       <a href="{{ url_for('blog_post', post_id=post.id) }}">Читать далее</a></p>
+  </div>
+{% endfor %}
+{% endblock %}

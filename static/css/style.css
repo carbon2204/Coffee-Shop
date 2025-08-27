@@ -1,0 +1,246 @@
+/* Импорт шрифтов Google */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+
+:root {
+    --primary-color: #6f4e37;       /* Главный цвет, например, коричневый */
+    --accent-color: #c49e6c;        /* Акцентный цвет (посветлее) */
+    --secondary-color: #d2b48c;     /* Вторичный цвет */
+    --background-color: #fdf7f0;    /* Общий фон */
+    --text-color: #333;             /* Цвет текста */
+    --header-footer-bg: #f7e8d0;    /* Фон шапки и подвала */
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    padding-bottom: 40px;
+}
+
+/* Шапка */
+header {
+    background-color: var(--header-footer-bg);
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+}
+header h1 {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+}
+
+/* Меню */
+nav {
+    margin-top: 10px;
+}
+nav a {
+    color: var(--primary-color);
+    text-decoration: none;
+    margin: 0 15px;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+nav a:hover {
+    color: var(--accent-color);
+}
+
+/* Основной контейнер */
+main {
+    width: 90%;
+    max-width: 1200px;
+    margin: auto;
+    padding: 10px;
+}
+
+h2, h3 {
+    margin-bottom: 15px;
+}
+
+/* Карточки товаров (страница меню) */
+.products {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+
+.product {
+    background-color: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    width: 300px;
+    cursor: pointer;
+}
+.product:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+.product img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+.product-content {
+    padding: 15px;
+}
+.product-content h3 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    color: var(--primary-color);
+}
+.product-content p {
+    font-size: 1rem;
+    margin-bottom: 10px;
+}
+.btn-cart {
+    display: inline-block;
+    padding: 8px 12px;
+    background-color: var(--primary-color);
+    color: #fff;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+.btn-cart:hover {
+    background-color: var(--accent-color);
+}
+
+/* Админские таблицы и кнопки */
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 30px;
+}
+.admin-table th,
+.admin-table td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: left;
+}
+
+/* Кнопки действий (редактировать, удалить) */
+.admin-actions {
+    display: flex;
+    gap: 10px;
+}
+.btn-edit,
+.btn-delete,
+.admin-btn {
+    display: inline-block;
+    padding: 6px 10px;
+    border: none;
+    border-radius: 4px;
+    text-decoration: none;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* Пример раскраски кнопок */
+.btn-edit {
+    background-color: var(--accent-color);
+}
+.btn-edit:hover {
+    background-color: var(--secondary-color);
+}
+.btn-delete {
+    background-color: #dc3545;
+}
+.btn-delete:hover {
+    background-color: #b02a37;
+}
+.admin-btn {
+    background-color: var(--primary-color);
+    margin-bottom: 10px;
+}
+.admin-btn:hover {
+    background-color: var(--accent-color);
+}
+
+/* Стили для форм */
+form {
+    max-width: 600px;
+    margin: 30px auto;
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+}
+form input,
+form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+form button {
+    width: 100%;
+    padding: 10px;
+    background-color: var(--primary-color);
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+form button:hover {
+    background-color: var(--accent-color);
+}
+
+/* Корзина */
+.cart-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 30px;
+}
+.cart-table th,
+.cart-table td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: center;
+}
+
+/* Флеш-сообщения */
+.flashes {
+    list-style: none;
+    margin-bottom: 20px;
+    padding: 0;
+}
+.flash {
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    font-weight: 500;
+}
+.flash.success  { background-color: #d4edda; border-left: 5px solid #28a745; }
+.flash.warning  { background-color: #fff3cd; border-left: 5px solid #ffc107; }
+.flash.danger   { background-color: #f8d7da; border-left: 5px solid #dc3545; }
+.flash.info     { background-color: #d1ecf1; border-left: 5px solid #17a2b8; }
+
+/* Подвал */
+footer {
+    background-color: var(--header-footer-bg);
+    padding: 15px;
+    text-align: center;
+    margin-top: 40px;
+    box-shadow: 0 -2px 4px rgba(0,0,0,0.1);
+}

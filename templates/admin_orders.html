@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Контроль заказов{% endblock %}
+{% block content %}
+<h2>Контроль заказов</h2>
+
+<table border="1" cellspacing="0" cellpadding="8">
+  <thead>
+    <tr>
+      <th>ID заказа</th>
+      <th>Пользователь</th>
+      <th>Сумма</th>
+      <th>Дата</th>
+      <th>Статус целостности</th>
+      <th>Действие</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for item in orders %}
+      <tr>
+        <td>{{ item.order.id }}</td>
+        <td>{{ item.order.user.username }}</td>
+        <td>{{ item.order.total }} руб.</td>
+        <td>{{ item.order.timestamp }}</td>
+        <td>
+          {% if item.valid %}
+            ✅ Корректна
+          {% else %}
+            ❌ Нарушена
+          {% endif %}
+        </td>
+        <td>
+          {% if not item.valid %}
+            <form action="{{ url_for('delete_order', order_id=item.order.id) }}" method="post" onsubmit="return confirm('Удалить заказ с нарушенной целостностью?');">
+              <button type="submit">Удалить</button>
+            </form>
+          {% else %}
+            —
+          {% endif %}
+        </td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<a href="{{ url_for('admin_dashboard') }}" class="btn">Вернуться в админпанель</a>
+{% endblock %}
